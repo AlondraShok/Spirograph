@@ -3,6 +3,7 @@ package sample;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
@@ -18,7 +19,7 @@ public class Spiro
         return 70 * (int)((a - b) * Math.sin(t) - b * Math.sin(t * (a / b - 1)));
     }
 
-    public void drawSpiro(GraphicsContext gc, Canvas canvas, Label label, TextArea enterPoints)
+    public void drawSpiro(GraphicsContext gc, Canvas canvas, Label label, TextArea enterPoints, ChoiceBox choiceStep)
     {
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(0.25);
@@ -30,9 +31,7 @@ public class Spiro
         double b = 2.51;
         double t = 0;
         int points = Integer.parseInt(enterPoints.getText());
-        double step = 2;
-        int refreshCounter = 0;
-        int refreshValue = 100;
+        double step = Double.parseDouble(choiceStep.getValue().toString());
         int pointsCounter = 1;
         int shiftX = (int)(canvas.getWidth() / 2);
         int shiftY = (int)(canvas.getHeight() / 2);
@@ -52,7 +51,7 @@ public class Spiro
             }
             else
             {
-                gc.setStroke(Color.GREEN);
+                gc.setStroke(Color.BLUE);
                 gc.strokeLine(cur.getX(), cur.getY(), next.getX(), next.getY());
             }
             cur = next;
