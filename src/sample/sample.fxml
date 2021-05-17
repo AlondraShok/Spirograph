@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.collections.FXCollections?>
 
-<?import java.lang.String?>
 <Pane prefHeight="1200.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <Canvas fx:id="canvas" height="700.0" width="800.0" />
+
       <Button fx:id="btnDraw" layoutX="900.0" layoutY="20.0" mnemonicParsing="false" onAction="#clickDraw" text="Draw" />
       <Button fx:id="btnClear" layoutX="950.0" layoutY="20.0" mnemonicParsing="false" onAction="#clickClear" text="Clear" />
+
       <Label fx:id="label" layoutX="896.0" layoutY="61.0" /> <!--text="Number of points" -->
       <Label fx:id="labelPoints" layoutX="896.0" layoutY="80.0" text="Number of points" />
+
       <TextArea fx:id="enterPoints" layoutX="1000.0" layoutY="80.0" prefHeight="15.0" prefWidth="100.0" />
-<!--      <ChoiceBox fx:id="choiceStep" layoutX="1000.0" layoutY="130.0" prefWidth="100.0" prefHeight="25.0"  />-->
-      <ChoiceBox fx:id="choiceStep" layoutX="1000.0" layoutY="130.0" prefWidth="100.0" prefHeight="25.0" >
+
+      <Label fx:id="labelStep" layoutX="896.0" layoutY="137.0" text="Step" />
+      <ChoiceBox fx:id="choiceStep" layoutX="1000.0" layoutY="130.0" prefHeight="25.0" prefWidth="100.0">
          <items>
             <FXCollections fx:factory="observableArrayList">
                <String fx:value="0.5" />
                <String fx:value="1" />
                <String fx:value="2" />
                <String fx:value="3" />
+            </FXCollections>
+         </items>
+      </ChoiceBox>
+
+      <Label fx:id="labelParams" layoutX="896.0" layoutY="165.0" text="Parameters" />
+      <ChoiceBox fx:id="choiceParams" layoutX="1000.0" layoutY="160.0" prefHeight="25.0" prefWidth="100.0">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="a: 10, b: 2" />
+               <String fx:value="a: 23, b: 2" />
+               <String fx:value="a: 5, b: 30" />
+               <String fx:value="a: 5, b: 2.51" />
             </FXCollections>
          </items>
       </ChoiceBox>

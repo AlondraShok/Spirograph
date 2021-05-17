@@ -7,19 +7,23 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Spiro
 {
-    private int getX(double a, double b, double t)
+    private int getX(double a, double b, double t, int koef)
     {
-        return 70 * (int)((a - b) * Math.cos(t) + b * Math.cos(t * (a / b - 1)));
+        return koef * (int)((a - b) * Math.cos(t) + b * Math.cos(t * (a / b - 1)));
     }
-    private int getY(double a, double b, double t)
+    private int getY(double a, double b, double t, int koef)
     {
-        return 70 * (int)((a - b) * Math.sin(t) - b * Math.sin(t * (a / b - 1)));
+        return koef * (int)((a - b) * Math.sin(t) - b * Math.sin(t * (a / b - 1)));
     }
 
-    public void drawSpiro(GraphicsContext gc, Canvas canvas, Label label, TextArea enterPoints, ChoiceBox choiceStep)
+    public void drawSpiro(GraphicsContext gc, Canvas canvas, Label label, TextArea enterPoints, ChoiceBox choiceStep, ChoiceBox choiceParams)
     {
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(0.25);
@@ -27,8 +31,39 @@ public class Spiro
         Point2D cur;
         Point2D next;
 
-        double a = 5;
-        double b = 2.51;
+        int koef = 25;
+        String params = choiceParams.getValue().toString();
+
+        System.out.println(params);
+
+        switch (params)
+        {
+            case "a: 10, b: 2":
+                koef = 30;
+                break;
+            case "a: 23, b: 2":
+                koef = 13;
+                break;
+            case "a: 5, b: 30":
+                koef = 5;
+                break;
+            case "a: 5, b: 2.51":
+                koef = 70;
+                break;
+            default:
+                break;
+        }
+
+        List<String> allMatches = new ArrayList<String>();
+        Matcher m = Pattern.compile("\\d+").matcher(params);
+        while (m.find())
+        {
+            allMatches.add(m.group());
+        }
+
+        double a = Double.parseDouble(allMatches.get(0));
+        double b = Double.parseDouble(allMatches.get(1));
+
         double t = 0;
         int points = Integer.parseInt(enterPoints.getText());
         double step = Double.parseDouble(choiceStep.getValue().toString());
@@ -36,11 +71,11 @@ public class Spiro
         int shiftX = (int)(canvas.getWidth() / 2);
         int shiftY = (int)(canvas.getHeight() / 2);
 
-        cur = new Point2D(getX(a, b, t) + shiftX, getY(a, b, t) + shiftY);
+        cur = new Point2D(getX(a, b, t, koef) + shiftX, getY(a, b, t, koef) + shiftY);
 
         for (t = step; t <= (points - 1) * step; t = t + step)
         {
-            next = new Point2D(getX(a, b, t) + shiftX, getY(a, b, t) + shiftY);
+            next = new Point2D(getX(a, b, t, koef) + shiftX, getY(a, b, t, koef) + shiftY);
 
             gc.strokeLine(cur.getX(), cur.getY(), next.getX(), next.getY());
 
@@ -58,7 +93,6 @@ public class Spiro
 
             pointsCounter++;
             label.setText(String.valueOf(pointsCounter));
-
         }
     }
 }

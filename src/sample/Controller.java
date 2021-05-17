@@ -8,8 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ChoiceBox;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
 
 public class Controller
 {
@@ -35,10 +33,13 @@ public class Controller
     private ChoiceBox choiceStep;
 
     @FXML
+    private ChoiceBox choiceParams;
+
+    @FXML
     private void clickDraw(ActionEvent event)
     {
         gc = canvas.getGraphicsContext2D();
-        spiro.drawSpiro(gc, canvas, label, enterPoints, choiceStep);
+        spiro.drawSpiro(gc, canvas, label, enterPoints, choiceStep, choiceParams);
     }
 
     @FXML
