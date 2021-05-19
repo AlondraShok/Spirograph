@@ -36,10 +36,13 @@ public class Controller
     private ChoiceBox choiceParams;
 
     @FXML
+    private ChoiceBox choiceFormulas;
+
+    @FXML
     private void clickDraw(ActionEvent event)
     {
         gc = canvas.getGraphicsContext2D();
-        spiro.drawSpiro(gc, canvas, label, enterPoints, choiceStep, choiceParams);
+        spiro.drawSpiro(gc, canvas, label, enterPoints, choiceStep, choiceParams, choiceFormulas);
     }
 
     @FXML

@@ -14,16 +14,34 @@ import java.util.regex.Pattern;
 
 public class Spiro
 {
-    private int getX(double a, double b, double t, int koef)
+    ArrayList<Formula> formulas = new ArrayList<Formula>();
+    int currentFormula = 0;
+
+    private int getX(double t)
     {
-        return koef * (int)((a - b) * Math.cos(t) + b * Math.cos(t * (a / b - 1)));
+        return formulas.get(currentFormula).getX(t);
     }
-    private int getY(double a, double b, double t, int koef)
+    private int getY(double t)
     {
-        return koef * (int)((a - b) * Math.sin(t) - b * Math.sin(t * (a / b - 1)));
+        return formulas.get(currentFormula).getY(t);
     }
 
-    public void drawSpiro(GraphicsContext gc, Canvas canvas, Label label, TextArea enterPoints, ChoiceBox choiceStep, ChoiceBox choiceParams)
+    private void fillFormulas(double a, double b, int koef)
+    {
+        if (currentFormula == 0)
+        {
+            formulas.add(new FormulaV1(a, b, koef));
+        }
+        if (currentFormula == 1)
+        {
+            formulas.add(new FormulaV2(a, b, koef));
+        }
+        formulas.get(currentFormula).setA(a);
+        formulas.get(currentFormula).setB(b);
+        formulas.get(currentFormula).setKoef(koef);
+    }
+
+    public void drawSpiro(GraphicsContext gc, Canvas canvas, Label label, TextArea enterPoints, ChoiceBox choiceStep, ChoiceBox choiceParams, ChoiceBox choiceFormulas)
     {
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(0.25);
@@ -32,10 +50,8 @@ public class Spiro
         Point2D next;
 
         int koef = 25;
+
         String params = choiceParams.getValue().toString();
-
-        System.out.println(params);
-
         switch (params)
         {
             case "a: 10, b: 2":
@@ -54,6 +70,19 @@ public class Spiro
                 break;
         }
 
+        String formulas = choiceFormulas.getValue().toString();
+        switch (formulas)
+        {
+            case "Formula 1":
+                currentFormula = 0;
+                break;
+            case "Formula 2":
+                currentFormula = 1;
+                break;
+            default:
+                break;
+        }
+
         List<String> allMatches = new ArrayList<String>();
         Matcher m = Pattern.compile("\\d+").matcher(params);
         while (m.find())
@@ -64,6 +93,8 @@ public class Spiro
         double a = Double.parseDouble(allMatches.get(0));
         double b = Double.parseDouble(allMatches.get(1));
 
+        fillFormulas(a, b, koef);
+
         double t = 0;
         int points = Integer.parseInt(enterPoints.getText());
         double step = Double.parseDouble(choiceStep.getValue().toString());
@@ -71,11 +102,11 @@ public class Spiro
         int shiftX = (int)(canvas.getWidth() / 2);
         int shiftY = (int)(canvas.getHeight() / 2);
 
-        cur = new Point2D(getX(a, b, t, koef) + shiftX, getY(a, b, t, koef) + shiftY);
+        cur = new Point2D(getX(t) + shiftX, getY(t) + shiftY);
 
         for (t = step; t <= (points - 1) * step; t = t + step)
         {
-            next = new Point2D(getX(a, b, t, koef) + shiftX, getY(a, b, t, koef) + shiftY);
+            next = new Point2D(getX(t) + shiftX, getY(t) + shiftY);
 
             gc.strokeLine(cur.getX(), cur.getY(), next.getX(), next.getY());
 

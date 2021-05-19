@@ -41,5 +41,15 @@
             </FXCollections>
          </items>
       </ChoiceBox>
+
+      <Label fx:id="labelFormulas" layoutX="897.0" layoutY="194.0" text="Formulas" />
+      <ChoiceBox fx:id="choiceFormulas" layoutX="1000.0" layoutY="190.0" prefHeight="25.0" prefWidth="100.0">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Formula 1" />
+               <String fx:value="Formula 2" />
+            </FXCollections>
+         </items>
+      </ChoiceBox>
    </children>
 </Pane>
