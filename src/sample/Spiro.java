@@ -41,9 +41,33 @@ public class Spiro
         formulas.get(currentFormula).setKoef(koef);
     }
 
-    public void drawSpiro(GraphicsContext gc, Canvas canvas, Label label, TextArea enterPoints, ChoiceBox choiceStep, ChoiceBox choiceParams, ChoiceBox choiceFormulas)
+    public void drawSpiro(GraphicsContext gc, Canvas canvas, Label label, TextArea enterPoints, ChoiceBox choiceStep, ChoiceBox choiceParams, ChoiceBox choiceFormulas, ChoiceBox choiceColors)
     {
-        gc.setStroke(Color.BLACK);
+        String colors = choiceColors.getValue().toString();
+        switch (colors)
+        {
+            case "Black":
+                gc.setStroke(Color.BLACK);
+                break;
+            case "Red":
+                gc.setStroke(Color.RED);
+                break;
+            case "Green":
+                gc.setStroke(Color.GREEN);
+                break;
+            case "Blue":
+                gc.setStroke(Color.BLUE);
+                break;
+            case "Yellow":
+                gc.setStroke(Color.YELLOW);
+                break;
+            case "Orange":
+                gc.setStroke(Color.ORANGE);
+                break;
+            case "Purple":
+                gc.setStroke(Color.PURPLE);
+                break;
+        }
         gc.setLineWidth(0.25);
 
         Point2D cur;
@@ -110,16 +134,16 @@ public class Spiro
 
             gc.strokeLine(cur.getX(), cur.getY(), next.getX(), next.getY());
 
-            if (t % 2 == 0)
-            {
-                gc.setStroke(Color.RED);
-                gc.strokeLine(cur.getX(), cur.getY(), next.getX(), next.getY());
-            }
-            else
-            {
-                gc.setStroke(Color.BLUE);
-                gc.strokeLine(cur.getX(), cur.getY(), next.getX(), next.getY());
-            }
+//            if (t % 2 == 0)
+//            {
+//                gc.setStroke(Color.RED);
+//                gc.strokeLine(cur.getX(), cur.getY(), next.getX(), next.getY());
+//            }
+//            else
+//            {
+//                gc.setStroke(Color.BLUE);
+//                gc.strokeLine(cur.getX(), cur.getY(), next.getX(), next.getY());
+//            }
             cur = next;
 
             pointsCounter++;
